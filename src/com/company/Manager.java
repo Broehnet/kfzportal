@@ -7,9 +7,14 @@ public class Manager {
         Auto auto = new Auto(100);
         Kosten kosten = new Kosten(auto, 2030, 10);
         System.out.println(kosten.getGesamtkosten());
-        Queue<Double> einzelkosten = kosten.getEinzelkosten();
-        for (int i = 0; i < 5; i++){
-            System.out.println(einzelkosten.dequeue().getContent());
+        QueueWithPointer<Double> einzelkosten = kosten.getEinzelkosten();
+        for (int i = 0; i < 4; i++){
+            System.out.println(einzelkosten.getPointer().getContent());
+            einzelkosten.movePointerBack();
         }
+        System.out.println(einzelkosten.getPointer().getContent());
+        einzelkosten.movePointerBack();
+        System.out.println(einzelkosten.getPointer().getContent());
     }
+
 }

@@ -4,14 +4,14 @@ public class Kosten {
 
     private final Auto auto;
     private final int jahre;
-    private final Queue<Double> einzelkosten;
+    private final QueueWithPointer<Double> einzelkosten;
     private final double gesamtkosten;
     private final int kmProJahr;
 
     Kosten(Auto auto, int zeitEnde, int kmProJahr) {
         this.auto = auto;
         this.jahre = zeitEnde - Constants.JAHR;
-        this.einzelkosten = new Queue<Double>();
+        this.einzelkosten = new QueueWithPointer<Double>();
         this.kmProJahr = kmProJahr;
         buildEinzelkosten();
         gesamtkosten = sumEinzelkosten();
@@ -28,12 +28,13 @@ public class Kosten {
     private double sumEinzelkosten() {
         double sum = 0;
         for (int i = 0; i < 5; i++) {
-           sum += einzelkosten.dequeue().getContent();
+           sum += einzelkosten.getPointer().getContent();
+           einzelkosten.movePointerBack();
         }
         return sum;
     }
 
-    public Queue<Double> getEinzelkosten() {
+    public QueueWithPointer<Double> getEinzelkosten() {
         return einzelkosten;
     }
 
