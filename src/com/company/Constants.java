@@ -5,7 +5,7 @@ public class Constants {
     static final double SUPER = 2.10;
     static final double SUPERE10 = 2.05;
     static final double DIESEL = 2.00;
-    static final int JAHR = 2020;
+    static final int JAHR = 2022;
 
     public static double getPrice(String kraftstoff) {
         switch (kraftstoff){

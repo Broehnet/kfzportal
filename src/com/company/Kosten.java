@@ -8,21 +8,21 @@ public class Kosten {
     private final double gesamtkosten;
     private final int kmProJahr;
 
-    Kosten(Auto auto, int zeitEnde, int kmProJahr) {
+    Kosten(Auto auto, int jahre, int kmProJahr) {
         this.auto = auto;
-        this.jahre = zeitEnde - Constants.JAHR;
-        this.einzelkosten = new QueueWithPointer<Double>();
+        this.jahre = jahre;
+        this.einzelkosten = new QueueWithPointer<>();
         this.kmProJahr = kmProJahr;
         buildEinzelkosten();
         gesamtkosten = sumEinzelkosten();
     }
 
     private void buildEinzelkosten() {
-        einzelkosten.enqueue(new Element<Double>(null, verbrauchKosten()));
-        einzelkosten.enqueue(new Element<Double>(null, steuern()));
-        einzelkosten.enqueue(new Element<Double>(null, versicherung()));
-        einzelkosten.enqueue(new Element<Double>(null, verschleiss()));
-        einzelkosten.enqueue(new Element<Double>(null, tuev()));
+        einzelkosten.enqueue(new Element<>(null, verbrauchKosten()));
+        einzelkosten.enqueue(new Element<>(null, steuern()));
+        einzelkosten.enqueue(new Element<>(null, versicherung()));
+        einzelkosten.enqueue(new Element<>(null, verschleiss()));
+        einzelkosten.enqueue(new Element<>(null, tuev()));
     }
 
     private double sumEinzelkosten() {
