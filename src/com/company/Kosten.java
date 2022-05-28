@@ -2,7 +2,6 @@ package com.company;
 
 public class Kosten {
 
-    private final int currentJahr = Constants.JAHR;
     private Auto auto;
     private int jahre;
     private Queue einzelkosten;
@@ -11,7 +10,7 @@ public class Kosten {
 
     Kosten(Auto auto, int zeitraum) {
         this.auto = auto;
-        this.jahre = zeitraum - currentJahr;
+        this.jahre = zeitraum - Constants.JAHR;
     }
 
     public Queue getEinzelkosten() {
