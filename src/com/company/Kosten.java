@@ -43,11 +43,11 @@ public class Kosten {
     }
 
     public double sprit() {
-        return kmProJahr * (auto.getVerbrauch() / 100) * jahre;
+        return kmProJahr * (100 / 100) * jahre;
     }
 
     public double verbrauchKosten() {
-        return sprit() * Constants.getPrice(auto.getKraftstoff());
+        return sprit() * Constants.getPrice("a");
     }
 
     public double steuern() {

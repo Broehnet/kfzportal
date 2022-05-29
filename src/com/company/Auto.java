@@ -1,19 +1,13 @@
 package com.company;
 
 public class Auto {
-    public double verbrauch;
-    public String kraftstoff;
+    private String[] array;
     // Test
-    Auto(double verbrauch) {
-       this.kraftstoff = "a";
-       this.verbrauch = verbrauch;
+    Auto(String[] array) {
+       this.array = array;
     }
 
-    public double getVerbrauch() {
-        return this.verbrauch;
-    }
-
-    public String getKraftstoff() {
-        return kraftstoff;
+    public String[] getArray() {
+        return array;
     }
 }
