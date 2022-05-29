@@ -1,11 +1,9 @@
 package com.company;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class AutoList {
 
@@ -32,9 +30,8 @@ public class AutoList {
         return null;
     }
 
-    public static Auto getAutoFromInput(String marke) {
-        // binary search
-        // TODO Funktioniert noch nicht so richtig, fehler liegt bei den Indezes
+    public static Auto getAutoArrayFromInput(String marke) {
+        // TODO Parameter sind nur testweise, dort muessen die einzelnen Suchparameter des Autos eingesetzt werden
         int bottom = 0;
         int top = size - 1;
         System.out.println(size);
@@ -46,15 +43,9 @@ public class AutoList {
             autoArr = list.get(c);
             comp = (autoArr[1] + autoArr[2]).toLowerCase().compareTo(marke.toLowerCase());
             if (comp == 0) return new Auto(autoArr);
-            else if (comp < 0) {
-                bottom = c + 1;
-            }
-            else if (comp > 0) {
-                top = c - 1;
-            }
-            System.out.println("a" + Integer.toString(c) + "   " + Integer.toString(bottom));
+            else if (comp < 0) bottom = c + 1;
+            else if (comp > 0) top = c - 1;
         }
-        System.out.println("neger");
         return new Auto(new String[]{});
 
     }

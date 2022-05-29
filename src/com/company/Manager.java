@@ -25,9 +25,12 @@ public class Manager {
         System.out.println(currentSuche.getKosten().getGesamtkosten());
         System.out.println(Arrays.toString(AutoList.list.get(0)));
         System.out.println(Arrays.toString(AutoList.list.get(0)));
-        for (int i = 0; i < 7; i++) System.out.println(currentSuche.getAuto().getArray()[i]);
-
-
+        for (int i = 0; i < 9; i++) System.out.println(currentSuche.getAuto().getArray()[i]);
+        ArrayList<String[]> list = AutoList.list;
+        String b;
+        int c = 1;
+        String a = list.get(0)[1] + list.get(0)[2];
+        // TODO Die Daten sind nicht ganz aufsteigend geordnet
     }
 
     public static void search() {

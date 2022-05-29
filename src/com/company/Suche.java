@@ -9,7 +9,7 @@ public class Suche {
     // Graphdaten muessen hier noch eingefuegt werden
 
     Suche(String[] eingabe, int zeitEnde, int kmProJahr) {
-        this.auto = AutoList.getAutoFromInput("Porsche718");
+        this.auto = AutoList.getAutoArrayFromInput("PaganiZonda C12");
         this.zeitEnde = zeitEnde;
         this.kmProJahr = kmProJahr;
         this.kosten = new Kosten(auto, zeitEnde - Constants.JAHR, kmProJahr);
