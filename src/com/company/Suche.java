@@ -9,6 +9,7 @@ public class Suche {
     // Graphdaten muessen hier noch eingefuegt werden
 
     Suche(String[] eingabe, int zeitEnde, int kmProJahr) {
+        // die eingabe muss noch gemacht werden
         this.auto = AutoList.getAutoArrayFromInput("PaganiZonda C12");
         this.zeitEnde = zeitEnde;
         this.kmProJahr = kmProJahr;

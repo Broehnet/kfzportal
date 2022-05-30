@@ -11,8 +11,8 @@ public class Kosten {
     Kosten(Auto auto, int jahre, int kmProJahr) {
         this.auto = auto;
         this.jahre = jahre;
-        this.einzelkosten = new QueueWithPointer<>();
         this.kmProJahr = kmProJahr;
+        this.einzelkosten = new QueueWithPointer<>();
         buildEinzelkosten();
         gesamtkosten = sumEinzelkosten();
     }
@@ -33,6 +33,7 @@ public class Kosten {
         }
         return sum;
     }
+    // TODO Berechnung
 
     public QueueWithPointer<Double> getEinzelkosten() {
         return einzelkosten;

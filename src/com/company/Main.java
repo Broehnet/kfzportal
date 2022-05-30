@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
-public class Manager {
+public class Main {
 
     static Suche currentSuche;
 
     public static void main(String[] args) {
-        // Test
+        // Nur fuer Testzwecke
         Auto auto = new Auto(new String[]{});
         Kosten kosten = new Kosten(auto, 10, 10);
         System.out.println(kosten.getGesamtkosten());
@@ -29,8 +29,15 @@ public class Manager {
         ArrayList<String[]> list = AutoList.list;
         String b;
         int c = 1;
-        String a = list.get(0)[1] + list.get(0)[2];
+        String a = list.get(0)[1];
         // TODO Die Daten sind nicht ganz aufsteigend geordnet
+        while (true) {
+            b = list.get(c)[1];
+            System.out.println(c);
+            if (a.toLowerCase().compareTo(b.toLowerCase()) > 0) break;
+            a = b;
+            c++;
+        }
     }
 
     public static void search() {
