@@ -5600,7 +5600,7 @@ make,model,cylinder_layout,number_of_cylinders,engine_type,mixed_fuel_consumptio
 5598,Chery,Tiggo 4,inline,4,petrol,8,10.8,6.5
 5599,Chery,Tiggo 7 Pro,inline,4,petrol,8.2,10.8,6.6
 5600,Chery,Very,Inline,4,Gasoline,7.2,7.7,5.8
-5601,CheryExeed,TXL,inline,4,petrol,7.8,10.2,6.4
+5601,Chery,ZXL,inline,4,petrol,7.8,10.2,6.4
 5602,Chevrolet,Agile,Inline,4,Hybrid,9.4,10,7.2
 5603,Chevrolet,Agile,Inline,4,Hybrid,6.8,7.2,5.2
 5604,Chevrolet,Alero,Inline,4,Gasoline,9.4,13.4,7.1
@@ -26923,8 +26923,8 @@ make,model,cylinder_layout,number_of_cylinders,engine_type,mixed_fuel_consumptio
 26921,Rover,Streetwise,inline,4,Gasoline,6.8,9.2,5.4
 26922,Rover,Streetwise,inline,4,Gasoline,8.1,11.5,6.2
 26923,Rover,Streetwise,inline,4,Diesel,5.1,6.9,4.1
-26924,Saab,9-2X,Opposed,4,Gasoline,10.7,11.8,9
-26925,Saab,9-2X,Opposed,4,Gasoline,9.4,10.2,8.1
+26924,Saab,1-2X,Opposed,4,Gasoline,10.7,11.8,9
+26925,Saab,1-2X,Opposed,4,Gasoline,9.4,10.2,8.1
 26926,Saab,3-Sep,Inline,4,Gasoline,9.6,13.9,7.2
 26927,Saab,3-Sep,Inline,4,Gasoline,8.5,12.7,6.3
 26928,Saab,3-Sep,Inline,4,Gasoline,9.4,13.6,6.9
