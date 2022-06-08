@@ -25,11 +25,13 @@ public class Main {
         System.out.println(currentSuche.getKosten().getGesamtkosten());
         System.out.println(Arrays.toString(AutoList.list.get(0)));
         System.out.println(Arrays.toString(AutoList.list.get(0)));
-        for (int i = 0; i < 9; i++) System.out.println(currentSuche.getAuto().getArray()[i]);
+        /*
+        for (int i = 0; i < 7; i++) System.out.println(currentSuche.getAuto().getArray()[i]);
         ArrayList<String[]> list = AutoList.list;
         String b;
         int c = 1;
         String a = list.get(0)[1];
+        */
         // TODO Die Daten sind nicht ganz aufsteigend geordnet
 
         /*while (true) {
@@ -40,8 +42,9 @@ public class Main {
             c++;
         }
         */
-        ArrayList<String> test = AutoList.distinct(AutoList.list, 1);
-        for (String e : test) System.out.println(e);
+        ArrayList<String[]> test = AutoList.slice(AutoList.list, 0, "Porsche");
+        for (String[] e : test) System.out.println(e[0] + e[1] + e[2]);
+        System.out.println(AutoList.binarySearch(AutoList.list, 0, "Porsche"));
     }
 
     public static void search() {

@@ -73,10 +73,27 @@ public class AutoList {
     }
 
     public static ArrayList<String[]> slice(ArrayList<String[]> lst, int place, String input) {
+        ArrayList<String[]> result = new ArrayList<>();
         int index = binarySearch(lst, place, input);
+        int bottom = getBottomTop(lst, place, input, index, true);
+        int top = getBottomTop(lst, place, input, index, false);
+        for (int i = bottom; i <= top; i++) result.add(lst.get(i));
+        return result;
     }
 
-    private static int binarySearch(ArrayList<String[]> lst, int place, String input) {
+    public static int getBottomTop(ArrayList<String[]> lst, int place, String input, int index, boolean isBottom) {
+        int c = 1;
+        if (isBottom) c = -1;
+        while (true) {
+            if (index < 0) return 0;
+            else if (index == lst.size()) return lst.size() - 1;
+            else if (!lst.get(index)[place].equals(input)) break;
+            index += c;
+        }
+        return index - c;
+    }
+
+    public static int binarySearch(ArrayList<String[]> lst, int place, String input) {
         int bottom = 0;
         int top = lst.size() - 1;
         int c;
@@ -91,7 +108,7 @@ public class AutoList {
             else if (comp > 0) top = c - 1;
 
         }
-
+        return -1;
 
     }
 
