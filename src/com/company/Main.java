@@ -31,13 +31,17 @@ public class Main {
         int c = 1;
         String a = list.get(0)[1];
         // TODO Die Daten sind nicht ganz aufsteigend geordnet
-        while (true) {
+
+        /*while (true) {
             b = list.get(c)[1];
             System.out.println(c);
             if (a.toLowerCase().compareTo(b.toLowerCase()) > 0) break;
             a = b;
             c++;
         }
+        */
+        ArrayList<String> test = AutoList.distinct(AutoList.list, 1);
+        for (String e : test) System.out.println(e);
     }
 
     public static void search() {

@@ -11,7 +11,7 @@ public class AutoList {
     final static int size = list.size();
 
     private static ArrayList<String[]> getAutoListFromCSV() {
-        String path = "src/com/company/cardb.csv";
+        String path = "src/com/company/cardbf.csv";
         String row;
         ArrayList<String[]> a = new ArrayList<>();
         try {
@@ -47,6 +47,51 @@ public class AutoList {
             else if (comp > 0) top = c - 1;
         }
         return new Auto(new String[]{});
+
+    }
+
+    public static ArrayList<String> distinct(ArrayList<String[]> lst, int index) {
+
+        ArrayList<String> result = new ArrayList<>();
+        String current;
+        for (int i = 0; i < lst.size(); i++) {
+            current = lst.get(i)[index];
+            if (!included(result, current)) result.add(current);
+
+        }
+        return result;
+
+
+    }
+
+    public static boolean included(ArrayList<String> lst, String input) {
+        if (lst.size() == 0) return false;
+        for (int i = 0; i < lst.size(); i++) {
+            if (lst.get(i).equals(input)) return true;
+        }
+        return false;
+    }
+
+    public static ArrayList<String[]> slice(ArrayList<String[]> lst, int place, String input) {
+        int index = binarySearch(lst, place, input);
+    }
+
+    private static int binarySearch(ArrayList<String[]> lst, int place, String input) {
+        int bottom = 0;
+        int top = lst.size() - 1;
+        int c;
+        String str;
+        int comp;
+        while (top >= bottom) {
+            c = bottom + ((top - bottom)  / 2);
+            str = list.get(c)[place];
+            comp = str.compareTo(input);
+            if (comp == 0) return c;
+            else if (comp < 0) bottom = c + 1;
+            else if (comp > 0) top = c - 1;
+
+        }
+
 
     }
 
