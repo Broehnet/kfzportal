@@ -2,15 +2,15 @@ package com.company;
 
 public class Kosten {
 
-    private final Auto auto;
-    private final int jahre;
+    private final String[] auto;
+    private final int dauer;
     private final QueueWithPointer<Double> einzelkosten;
     private final double gesamtkosten;
     private final int kmProJahr;
 
-    Kosten(Auto auto, int jahre, int kmProJahr) {
+    Kosten(String[] auto, int kmProJahr, int dauer) {
         this.auto = auto;
-        this.jahre = jahre;
+        this.dauer = dauer;
         this.kmProJahr = kmProJahr;
         this.einzelkosten = new QueueWithPointer<>();
         buildEinzelkosten();
@@ -44,7 +44,7 @@ public class Kosten {
     }
 
     public double sprit() {
-        return kmProJahr * (100 / 100) * jahre;
+        return kmProJahr * dauer;
     }
 
     public double verbrauchKosten() {
@@ -65,9 +65,6 @@ public class Kosten {
 
     public double tuev() {
         return 1.0;
-    }
-
-    public void gesamt() {
     }
 
 }
