@@ -9,6 +9,8 @@ public class AutoList {
 
     final static ArrayList<String[]> list = getAutoListFromCSV();
     final static int size = list.size();
+    static ArrayList<String[]> currentListModel;
+    static ArrayList<String[]> currentListTrim;
 
     private static ArrayList<String[]> getAutoListFromCSV() {
         String path = "src/com/company/cardbf.csv";
@@ -51,23 +53,20 @@ public class AutoList {
     }
 
     public static ArrayList<String> distinct(ArrayList<String[]> lst, int index) {
-
         ArrayList<String> result = new ArrayList<>();
         String current;
-        for (int i = 0; i < lst.size(); i++) {
-            current = lst.get(i)[index];
+        for (String[] strings : lst) {
+            current = strings[index];
             if (!included(result, current)) result.add(current);
 
         }
         return result;
-
-
     }
 
     public static boolean included(ArrayList<String> lst, String input) {
         if (lst.size() == 0) return false;
-        for (int i = 0; i < lst.size(); i++) {
-            if (lst.get(i).equals(input)) return true;
+        for (String s : lst) {
+            if (s.equals(input)) return true;
         }
         return false;
     }
@@ -101,7 +100,7 @@ public class AutoList {
         int comp;
         while (top >= bottom) {
             c = bottom + ((top - bottom)  / 2);
-            str = list.get(c)[place];
+            str = lst.get(c)[place];
             comp = str.compareTo(input);
             if (comp == 0) return c;
             else if (comp < 0) bottom = c + 1;
