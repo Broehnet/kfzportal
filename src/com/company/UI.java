@@ -48,6 +48,7 @@ public class UI extends Application {
     button1.setLayoutY(yLayout);
     button1.setPrefHeight(height);
     button1.setPrefWidth(width);
+    button1.setText("Suchen");
 
     root.getChildren().add(comboBox1);
     root.getChildren().add(comboBox2);
@@ -70,6 +71,7 @@ public class UI extends Application {
   private void comboBox1Action() {
     AutoList.currentListModel = AutoList.slice(AutoList.list, 0, comboBox1.getValue());
     comboBox2.getItems().clear();
+    comboBox3.getItems().clear();
     for (String s : AutoList.distinct(AutoList.currentListModel, 1)) comboBox2.getItems().add(s);
   }
 
@@ -80,6 +82,11 @@ public class UI extends Application {
   }
 
   private void button1Action() {
+    // TODO Suche muss noch gemacht werden
+    int index = comboBox3.getSelectionModel().getSelectedIndex();
+    if (comboBox3.getItems().size() == 0 || index < 0) return;
+    String[] car = AutoList.currentListTrim.get(index);
+    // TODO display
 
   }
   
