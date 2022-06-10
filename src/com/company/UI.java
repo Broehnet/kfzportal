@@ -6,10 +6,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.collections.*;
+import java.text.DecimalFormat;
 
 
 public class UI extends Application {
-
+  // Komponenten für die Eingabe
   private final ComboBox<String> comboBox1 = new ComboBox<>();
   private final ObservableList<String> comboBox1ObservableList =
           FXCollections.observableArrayList();
@@ -27,6 +28,16 @@ public class UI extends Application {
   private final Label label3 = new Label();
   private final Label label4 = new Label();
   private final Label label5 = new Label();
+  // Komponenten für die Ausgabe
+  private final Label label6 = new Label();
+  private final Label label7 = new Label();
+  private final Label label8 = new Label();
+  private final Label label9 = new Label();
+  private final Label label10 = new Label();
+  private final Label label11 = new Label();
+  private final Label label12 = new Label();
+  private final Label[] ausgabeLabels = {label7, label8, label9, label10, label11, label12};
+
 
   public void start(Stage primaryStage) {
     final int width = 160;
@@ -35,6 +46,7 @@ public class UI extends Application {
     final int yGap = 50 + height;
     final int xLayout = 120;
     final int yLayout = 120;
+    final int xLayout2 = 1100;
     Pane root = new Pane();
     Scene scene = new Scene(root, 1920, 1080);
     comboBox1.setLayoutX(xLayout);
@@ -84,6 +96,25 @@ public class UI extends Application {
       labelList[i].setPrefHeight(height);
       root.getChildren().add(labelList[i]);
     }
+    int c = 0;
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 2; j++) {
+        ausgabeLabels[c].setLayoutX(xLayout + xLayout2 + xGap * j);
+        ausgabeLabels[c].setLayoutY(yLayout + yGap * (i + 1));
+        c++;
+      }
+    }
+    label6.setLayoutX(xLayout + xLayout2);
+    label6.setLayoutY(yLayout);
+    label6.setPrefWidth(width * 2 + xGap);
+    label6.setPrefHeight(height);
+    root.getChildren().add(label6);
+    for (int i = 0; i < 6; i++) {
+      ausgabeLabels[i].setPrefWidth(width);
+      ausgabeLabels[i].setPrefHeight(height);
+      root.getChildren().add(ausgabeLabels[i]);
+    }
+
 
     comboBox1.setOnAction((event) -> { comboBox1Action(); });
     comboBox2.setOnAction((event) -> { comboBox2Action(); });
@@ -120,11 +151,26 @@ public class UI extends Application {
     }
     catch (NumberFormatException e) {
       System.out.println("Wrong input");
+      return;
     }
-    // TODO display
+    display();
 
   }
-  
+
+  private void display() {
+    DecimalFormat df = new DecimalFormat("0.00");
+    Kosten kosten = Manager.currentKosten;
+    String[] auto = kosten.getAuto();
+    QueueWithPointer<Double> kostenQueue = kosten.getEinzelkosten();
+    String[] texts = {"Spritkosten", "Steuern", "Versicherung", "Verschleiß", "TÜV"};
+    label6.setText(auto[0] + " " + auto[1] + " " + auto[2]);
+    for (int i = 0; i < 5; i++) {
+      ausgabeLabels[i].setText(texts[i] + "\n" + df.format(kostenQueue.getPointer().getContent()) + "€");
+      kostenQueue.movePointerBack();
+    }
+    ausgabeLabels[5].setText("Gesamt\n" + df.format(kosten.getGesamtkosten()) + "€");
+  }
+
   public static void main(String[] args) {
     launch(args);
   }

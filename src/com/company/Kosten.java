@@ -39,6 +39,8 @@ public class Kosten {
         return einzelkosten;
     }
 
+    public String[] getAuto() { return auto; }
+
     public double getGesamtkosten() {
         return gesamtkosten;
     }
