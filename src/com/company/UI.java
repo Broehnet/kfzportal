@@ -115,7 +115,12 @@ public class UI extends Application {
     // TODO Suche muss noch gemacht werden
     int index = comboBox3.getSelectionModel().getSelectedIndex();
     if (comboBox3.getItems().size() == 0 || index < 0) return;
-    String[] car = AutoList.currentListTrim.get(index);
+    try {
+      Manager.search(Integer.parseInt(textField1.getText()), Integer.parseInt(textField1.getText()), index);
+    }
+    catch (NumberFormatException e) {
+      System.out.println("Wrong input");
+    }
     // TODO display
 
   }
