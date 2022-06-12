@@ -7,9 +7,14 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.collections.*;
 import java.text.DecimalFormat;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+// import javafx.scene.chart.CategoryAxis;
 
 
 public class UI extends Application {
+  private final Pane root = new Pane();
   // Komponenten für die Eingabe
   private final ComboBox<String> comboBox1 = new ComboBox<>();
   private final ObservableList<String> comboBox1ObservableList =
@@ -37,6 +42,17 @@ public class UI extends Application {
   private final Label label11 = new Label();
   private final Label label12 = new Label();
   private final Label[] ausgabeLabels = {label7, label8, label9, label10, label11, label12};
+  // Komponenten Diagramm
+  private final NumberAxis xAxis = new NumberAxis();
+  private final NumberAxis yAxis = new NumberAxis();
+  private final XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+  // Todo nur Test ab hier
+  private final Button buttonTest = new Button();
+  private static int a = 1;
+  // test ende
+
+  final LineChart<Number, Number> lineChart = new LineChart<Number, Number>(
+          xAxis, yAxis);
 
 
   public void start(Stage primaryStage) {
@@ -47,7 +63,18 @@ public class UI extends Application {
     final int xLayout = 120;
     final int yLayout = 120;
     final int xLayout2 = 1100;
-    Pane root = new Pane();
+
+    // Todo test
+    buttonTest.setLayoutX(xLayout + (2 * xGap));
+    buttonTest.setLayoutY(yLayout + yGap* 10);
+    buttonTest.setPrefHeight(height);
+    buttonTest.setPrefWidth(width);
+    buttonTest.setText("Test");
+    buttonTest.setOnAction((event) -> { buttonTestAction(); });
+    // test ende
+
+
+    root.getChildren().add(buttonTest);
     Scene scene = new Scene(root, 1920, 1080);
     comboBox1.setLayoutX(xLayout);
     comboBox1.setLayoutY(yLayout);
@@ -115,6 +142,19 @@ public class UI extends Application {
       root.getChildren().add(ausgabeLabels[i]);
     }
 
+    // Diagramm
+    xAxis.setLabel("Jahr");
+    lineChart.setTitle("Kosten");
+    lineChart.setPrefWidth(width * 3);
+    lineChart.setPrefHeight(height * 9);
+    lineChart.setLayoutX(xLayout + xLayout2 - 70);
+    lineChart.setLayoutY(yLayout + yGap * 4);
+    lineChart.getData().add(series);
+    lineChart.setVisible(false);
+    lineChart.setCreateSymbols(false);
+    lineChart.setLegendVisible(false);
+    root.getChildren().add(lineChart);
+
 
     comboBox1.setOnAction((event) -> { comboBox1Action(); });
     comboBox2.setOnAction((event) -> { comboBox2Action(); });
@@ -143,7 +183,6 @@ public class UI extends Application {
   }
 
   private void button1Action() {
-    // TODO Suche muss noch gemacht werden
     int index = comboBox3.getSelectionModel().getSelectedIndex();
     if (comboBox3.getItems().size() == 0 || index < 0) return;
     try {
@@ -155,6 +194,13 @@ public class UI extends Application {
     }
     display();
 
+  }
+
+  // Todo Nur test
+  private void buttonTestAction() {
+    lineChart.setVisible(true);
+    series.getData().add(new XYChart.Data<Number, Number>(a, 20));
+    a++;
   }
 
   private void display() {
