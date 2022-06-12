@@ -155,6 +155,18 @@ public class UI extends Application {
     lineChart.setLegendVisible(false);
     root.getChildren().add(lineChart);
 
+    // Todo: Die Range der beiden Achsen muss noch bearbeitet werden
+
+    //    xAxis.setAutoRanging(false);
+    //    xAxis.setLowerBound(0);
+    //    xAxis.setUpperBound(24);
+    //    xAxis.setTickUnit(3);
+    //
+    //    yAxis.setAutoRanging(false);
+    //    yAxis.setLowerBound(0);
+    //    yAxis.setUpperBound(1);
+    //    yAxis.setTickUnit(0.1);
+
 
     comboBox1.setOnAction((event) -> { comboBox1Action(); });
     comboBox2.setOnAction((event) -> { comboBox2Action(); });
@@ -193,7 +205,6 @@ public class UI extends Application {
       return;
     }
     display();
-
   }
 
   // Todo Nur test
