@@ -11,7 +11,7 @@ public class Auto {
     final private double city_fuel;
     final private double highway_fuel;
     final private double hubraum;
-
+    // Comment
     Auto(String[] arr) {
        this.marke = arr[0];
        this.model = arr[1];
