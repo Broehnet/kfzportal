@@ -182,10 +182,10 @@ public class UI extends Application {
   private void display() {
     DecimalFormat df = new DecimalFormat("0.00");
     Kosten kosten = Manager.currentKosten;
-    String[] auto = kosten.getAuto();
+    Auto auto = kosten.getAuto();
     QueueWithPointer<Double> kostenQueue = kosten.getEinzelkosten();
     String[] texts = {"Spritkosten", "Steuern", "Versicherung", "Verschleiß", "TÜV"};
-    label6.setText(auto[0] + " " + auto[1] + " " + auto[2]);
+    label6.setText(auto.getMarke() + " " + auto.getModel() + " " + auto.getTrim());
     for (int i = 0; i < 5; i++) {
       ausgabeLabels[i].setText(texts[i] + "\n" + df.format(kostenQueue.getPointer().getContent()) + "€");
       kostenQueue.movePointerBack();
@@ -204,6 +204,7 @@ public class UI extends Application {
     yAxis.setLowerBound(0);
     yAxis.setUpperBound(kosten.getGesamtkosten() * 1.1);
     int price = 0;
+    series.getData().clear();
     for (int i = 0; i <= kosten.getDauer(); i++) {
       series.getData().add(new XYChart.Data<Number, Number>(i, price));
       price += kosten.getGesamtkosten() / kosten.getDauer();
