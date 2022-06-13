@@ -46,10 +46,6 @@ public class UI extends Application {
   private final NumberAxis xAxis = new NumberAxis();
   private final NumberAxis yAxis = new NumberAxis();
   private final XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-  // Todo nur Test ab hier
-  private final Button buttonTest = new Button();
-  private static int a = 1;
-  // test ende
 
   final LineChart<Number, Number> lineChart = new LineChart<Number, Number>(
           xAxis, yAxis);
@@ -64,17 +60,6 @@ public class UI extends Application {
     final int yLayout = 120;
     final int xLayout2 = 1100;
 
-    // Todo test
-    buttonTest.setLayoutX(xLayout + (2 * xGap));
-    buttonTest.setLayoutY(yLayout + yGap* 10);
-    buttonTest.setPrefHeight(height);
-    buttonTest.setPrefWidth(width);
-    buttonTest.setText("Test");
-    buttonTest.setOnAction((event) -> { buttonTestAction(); });
-    // test ende
-
-
-    root.getChildren().add(buttonTest);
     Scene scene = new Scene(root, 1920, 1080);
     comboBox1.setLayoutX(xLayout);
     comboBox1.setLayoutY(yLayout);
@@ -155,19 +140,6 @@ public class UI extends Application {
     lineChart.setLegendVisible(false);
     root.getChildren().add(lineChart);
 
-    // Todo: Die Range der beiden Achsen muss noch bearbeitet werden
-
-    //    xAxis.setAutoRanging(false);
-    //    xAxis.setLowerBound(0);
-    //    xAxis.setUpperBound(24);
-    //    xAxis.setTickUnit(3);
-    //
-    //    yAxis.setAutoRanging(false);
-    //    yAxis.setLowerBound(0);
-    //    yAxis.setUpperBound(1);
-    //    yAxis.setTickUnit(0.1);
-
-
     comboBox1.setOnAction((event) -> { comboBox1Action(); });
     comboBox2.setOnAction((event) -> { comboBox2Action(); });
     button1.setOnAction((event) -> { button1Action(); });
@@ -205,11 +177,6 @@ public class UI extends Application {
       return;
     }
     display();
-  }
-
-  // Todo Nur test
-  private void buttonTestAction() {
-    System.out.println(AutoList.distinct(AutoList.list, 5));
   }
 
   private void display() {
