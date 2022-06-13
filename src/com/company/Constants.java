@@ -1,23 +1,15 @@
 package com.company;
 
+import java.util.Locale;
+
 public class Constants {
 
-    static final double SUPER = 2.10;
-    static final double SUPERE10 = 2.05;
+    static final double BENZIN = 1.92;
     static final double DIESEL = 2.00;
     static final int JAHR = 2022;
 
     public static double getPrice(String kraftstoff) {
-        switch (kraftstoff){
-            case "a":
-                return SUPER;
-            case "b":
-                return SUPERE10;
-            case "c":
-                return DIESEL;
-            default:
-                return -1;
-        }
-
+        if (kraftstoff.toLowerCase().equals("diesel")) return DIESEL;
+        else return BENZIN;
     }
 }

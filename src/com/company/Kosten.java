@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.Locale;
+
 public class Kosten {
 
     private final String[] auto;
@@ -40,33 +42,44 @@ public class Kosten {
     }
 
     public String[] getAuto() { return auto; }
+    public int getDauer() { return dauer; }
 
     public double getGesamtkosten() {
         return gesamtkosten;
     }
 
     public double sprit() {
-        return kmProJahr * dauer;
-    }
+        return ((Double.parseDouble(auto[6]) / 100) * kmProJahr * dauer); }
 
     public double verbrauchKosten() {
-        return sprit() * Constants.getPrice("a");
+        return sprit() * Constants.getPrice(auto[5]);
     }
 
     public double steuern() {
-        return 1.0;
+        double hubraum = Double.parseDouble(auto[2].substring(0, 3));
+        if (auto[5].toLowerCase().equals("diesel")) {
+            double v = Double.parseDouble(auto[6]) - 3.5 <= 0 ? 0 : Double.parseDouble(auto[6]) - 3.5;
+            return (95 * hubraum + v * 54) * dauer;
+        }
+        else {
+            double v = Double.parseDouble(auto[6]) - 4.2 <= 0 ? 0 : Double.parseDouble(auto[6]) - 4.2;
+            return (20 * hubraum + v * 45) * dauer;
+        }
     }
 
+    // Todo bisher nur Pauschale
     public double versicherung() {
-        return 1.0;
+        return 700 * dauer;
     }
 
+    // Todo bisher nur Pauschale
     public double verschleiss() {
-        return 1.0;
+        return 300 * dauer;
     }
 
     public double tuev() {
-        return 1.0;
+        int anz = dauer - 4 <= 0 ? 0 : (int) Math.floor((dauer - 4) / 2);
+        return 139 * anz;
     }
 
 }

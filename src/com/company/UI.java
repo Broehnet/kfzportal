@@ -198,7 +198,7 @@ public class UI extends Application {
     int index = comboBox3.getSelectionModel().getSelectedIndex();
     if (comboBox3.getItems().size() == 0 || index < 0) return;
     try {
-      Manager.search(Integer.parseInt(textField1.getText()), Integer.parseInt(textField1.getText()), index);
+      Manager.search(Integer.parseInt(textField2.getText()), Integer.parseInt(textField1.getText()), index);
     }
     catch (NumberFormatException e) {
       System.out.println("Wrong input");
@@ -209,9 +209,7 @@ public class UI extends Application {
 
   // Todo Nur test
   private void buttonTestAction() {
-    lineChart.setVisible(true);
-    series.getData().add(new XYChart.Data<Number, Number>(a, 20));
-    a++;
+    System.out.println(AutoList.distinct(AutoList.list, 5));
   }
 
   private void display() {
@@ -226,6 +224,25 @@ public class UI extends Application {
       kostenQueue.movePointerBack();
     }
     ausgabeLabels[5].setText("Gesamt\n" + df.format(kosten.getGesamtkosten()) + "€");
+    displayDiagramm();
+  }
+
+  private void displayDiagramm() {
+    Kosten kosten = Manager.currentKosten;
+    xAxis.setAutoRanging(false);
+    xAxis.setLowerBound(0);
+    xAxis.setUpperBound((int) (kosten.getDauer() * 1.1));
+    xAxis.setTickUnit((int) (0.1 * kosten.getDauer()));
+    yAxis.setAutoRanging(false);
+    yAxis.setLowerBound(0);
+    yAxis.setUpperBound(kosten.getGesamtkosten() * 1.1);
+    int price = 0;
+    for (int i = 0; i <= kosten.getDauer(); i++) {
+      series.getData().add(new XYChart.Data<Number, Number>(i, price));
+      price += kosten.getGesamtkosten() / kosten.getDauer();
+    }
+    lineChart.setVisible(true);
+
   }
 
   public static void main(String[] args) {
