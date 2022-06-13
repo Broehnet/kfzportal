@@ -4451,7 +4451,6 @@ Hyundai,Getz,1.4 MT,Inline,4,Gasoline,6.5,8.2,5.5
 Hyundai,Getz,1.5 CRDi MT,Inline,3,Diesel,4.8,6.3,4
 Hyundai,Getz,1.6 AT,Inline,4,Gasoline,7.6,10.1,6.2
 Hyundai,Getz,1.6 MT,Inline,4,Gasoline,6.5,8.3,5.4
-Hyundai,Grand Starex,2.4 AT,inline,4,Liquefied coal hydrogen gases,6.8,7.4,5.6
 Hyundai,Grand Starex,2.5 AT,inline,4,diesel,9.5,11.9,8.8
 Hyundai,Grand Starex,2.5 MT,inline,4,diesel,8.6,9.5,8.5
 Hyundai,Grandeur,2.0 AT,Inline,4,Gasoline,9.7,11,9
@@ -5190,7 +5189,6 @@ Kia,Joice,2.0 MT,Inline,4,Gasoline,9.7,13.2,7.6
 Kia,K5,1.6 AMT,inline,4,petrol,6.6,9,8.3
 Kia,K5,1.7 AMT,inline,4,diesel,6.25,5.88,6.66
 Kia,K5,2.0 AT,inline,4,petrol,9,10.7,6.9
-Kia,K5,2.0 MT,inline,4,Liquefied coal hydrogen gases,10.1,11.2,8.7
 Kia,Lotze,2.0 AT,Inline,4,Gasoline,9.7,12,7
 Kia,Lotze,2.0 D-LEV AT,Inline,4,Diesel,7,8.1,5
 Kia,Lotze,2.0 D-LEV MT,Inline,4,Diesel,6.7,7.6,4.9
@@ -10138,7 +10136,6 @@ SEAT,Leon,1.4 MPI MT,Inline,4,Gasoline,6.3,8.4,5.1
 SEAT,Leon,1.4 MT,inline,4,petrol,5.2,6.7,4.3
 SEAT,Leon,1.4 TSI DSG,Inline,4,Gasoline,5.2,6.4,4.5
 SEAT,Leon,1.4 TSI MT,Inline,4,Gasoline,6.3,8.2,5.2
-SEAT,Leon,1.5 AMT,inline,4,Liquefied coal hydrogen gases,3.5,4.5,2.9
 SEAT,Leon,1.5 MT,inline,4,petrol,4.8,6.3,4
 SEAT,Leon,1.6 AMT,inline,4,diesel,4.1,4.3,4
 SEAT,Leon,1.6 MPI MT,Inline,4,Gasoline,7.5,10.3,5.9
