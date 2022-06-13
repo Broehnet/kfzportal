@@ -1,15 +1,17 @@
 package com.company;
 
+import java.util.Locale;
+
 public class Kosten {
 
-    private final Auto auto;
+    private final String[] auto;
     private final int dauer;
     private final QueueWithPointer<Double> einzelkosten;
     private final double gesamtkosten;
     private final int kmProJahr;
 
     Kosten(String[] auto, int kmProJahr, int dauer) {
-        this.auto = new Auto(auto);
+        this.auto = auto;
         this.dauer = dauer;
         this.kmProJahr = kmProJahr;
         this.einzelkosten = new QueueWithPointer<>();
@@ -39,7 +41,7 @@ public class Kosten {
         return einzelkosten;
     }
 
-    public Auto getAuto() { return auto; }
+    public String[] getAuto() { return auto; }
     public int getDauer() { return dauer; }
 
     public double getGesamtkosten() {
@@ -47,20 +49,21 @@ public class Kosten {
     }
 
     public double sprit() {
-        return (auto.getMixed_fuel() / 100) * kmProJahr * dauer; }
+        return ((Double.parseDouble(auto[6]) / 100) * kmProJahr * dauer); }
 
     public double verbrauchKosten() {
-        return sprit() * Constants.getPrice(auto.getEngine_type());
+        return sprit() * Constants.getPrice(auto[5]);
     }
 
     public double steuern() {
-        if (auto.getEngine_type().equalsIgnoreCase("diesel")) {
-            double v = auto.getMixed_fuel() - 3.5 <= 0 ? 0 : auto.getMixed_fuel() - 3.5;
-            return (95 * auto.getHubraum() + v * 54) * dauer;
+        double hubraum = Double.parseDouble(auto[2].substring(0, 3));
+        if (auto[5].toLowerCase().equals("diesel")) {
+            double v = Double.parseDouble(auto[6]) - 3.5 <= 0 ? 0 : Double.parseDouble(auto[6]) - 3.5;
+            return (95 * hubraum + v * 54) * dauer;
         }
         else {
-            double v = auto.getMixed_fuel() - 4.2 <= 0 ? 0 : auto.getMixed_fuel() - 4.2;
-            return (20 * auto.getHubraum() + v * 45) * dauer;
+            double v = Double.parseDouble(auto[6]) - 4.2 <= 0 ? 0 : Double.parseDouble(auto[6]) - 4.2;
+            return (20 * hubraum + v * 45) * dauer;
         }
     }
 

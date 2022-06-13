@@ -9,7 +9,7 @@ public class Constants {
     static final int JAHR = 2022;
 
     public static double getPrice(String kraftstoff) {
-        if (kraftstoff.equalsIgnoreCase("diesel")) return DIESEL;
+        if (kraftstoff.toLowerCase().equals("diesel")) return DIESEL;
         else return BENZIN;
     }
 }

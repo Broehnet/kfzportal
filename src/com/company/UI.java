@@ -182,10 +182,10 @@ public class UI extends Application {
   private void display() {
     DecimalFormat df = new DecimalFormat("0.00");
     Kosten kosten = Manager.currentKosten;
-    Auto auto = kosten.getAuto();
+    String[] auto = kosten.getAuto();
     QueueWithPointer<Double> kostenQueue = kosten.getEinzelkosten();
     String[] texts = {"Spritkosten", "Steuern", "Versicherung", "Verschleiß", "TÜV"};
-    label6.setText(auto.getMarke() + " " + auto.getModel() + " " + auto.getTrim());
+    label6.setText(auto[0] + " " + auto[1] + " " + auto[2]);
     for (int i = 0; i < 5; i++) {
       ausgabeLabels[i].setText(texts[i] + "\n" + df.format(kostenQueue.getPointer().getContent()) + "€");
       kostenQueue.movePointerBack();
