@@ -26,7 +26,8 @@ public class Auto {
     }
 
     private double initHubraum() {
-        return Double.parseDouble(trim.substring(0, 3));
+        try { return Double.parseDouble(trim.substring(0, 3)); }
+        catch (Exception e) { return 2.0; }
     }
 
     public String getMarke() {
