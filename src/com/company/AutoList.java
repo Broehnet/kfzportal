@@ -13,7 +13,7 @@ public class AutoList {
     static ArrayList<String[]> currentListTrim;
 
     private static ArrayList<String[]> getAutoListFromCSV() {
-        String path = "src/com/company/cardbf.csv";
+        String path = "com/company/cardbf.csv";
         String row;
         ArrayList<String[]> a = new ArrayList<>();
         try {
