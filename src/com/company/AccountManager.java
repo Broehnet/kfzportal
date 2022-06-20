@@ -19,7 +19,7 @@ public class AccountManager {
             message = "Username eingeben!";
             return null;
         }
-        else if (!accountExists(username)) {
+        else if (!accountExists(username) || username.charAt(0) == '-') {
             message = "Konto existiert nicht";
             return null;
         }
@@ -35,12 +35,24 @@ public class AccountManager {
     }
 
     public static Account register(String username, String password) throws IOException {
-        if (accountExists(username)) {
-            message = "Konto existiert bereits";
+        if (username.length() == 0) {
+            message = "Username eingeben!";
             return null;
         }
-        else if (!checkUsername(username)) {
-            message = "Username darf nicht mit ',' oder mit '-' beginnen";
+        else if (password.length() == 0) {
+            message = "Passwort eingeben!";
+            return null;
+        }
+        else if (username.charAt(0) == '-') {
+            message = "Username darf nicht mit '-' beginnen";
+            return null;
+        }
+        else if (!checkUserName(username)) {
+            message = "Username darf kein ',' beinhalten";
+            return null;
+        }
+        else if (accountExists(username)) {
+            message = "Konto existiert bereits";
             return null;
         }
         else if (password.length() < 8) {
@@ -101,9 +113,9 @@ public class AccountManager {
         return verlauf;
     }
 
-    private static boolean checkUsername(String username) {
-        if (username.length() == 0 || username.length() > 16) return false;
-        else return username.charAt(0) != '-' && username.charAt(0) != ',';
+    private static boolean checkUserName(String username) {
+        for (int i = 0; i < username.length(); i++) if (username.charAt(i) == ',') return false;
+        return  true;
     }
 
     public static void writeAccountToFile(String username, String password) throws IOException {
