@@ -85,7 +85,7 @@ public class AccountManager {
         else return password.length() >= 8;
     }
 
-    private static void writeAccountToFile(String username, String password) throws FileNotFoundException {
+    public static void writeAccountToFile(String username, String password) throws FileNotFoundException {
         PrintWriter writer = new PrintWriter(path);
         writer.write(username);
         writer.write(password);
