@@ -5,24 +5,46 @@ import java.util.ArrayList;
 
 public class AccountManager {
 
-    private static final String path = "com/company/AccountList.csv";
+    private static final String path = "src/com/company/AccountList.csv";
+    private static String message;
+
+    public static String getMessage() {
+        String m = message;
+        message = "";
+        return m;
+    }
 
     public static Account logIn(String username, String password) throws IOException {
-        if (!accountExists(username)) {
-            // Todo message
+        if (username.length() == 0) {
+            message = "Username eingeben!";
+            return null;
+        }
+        else if (!accountExists(username)) {
+            message = "Konto existiert nicht";
+            return null;
+        }
+        else if (password.length() == 0) {
+            message = "Passwort eingeben!";
             return null;
         }
         else if (wrongPassword(username, password)) {
-            // Todo message
+            message = "Falsches Passwort";
             return null;
         }
         else return new Account(username, getVerlauf(username));
     }
 
     public static Account register(String username, String password) throws IOException {
-        if (accountExists(username)) return logIn(username, password);
-        else if (!checkUsernamePassword(username, password)) {
-            // Todo message
+        if (accountExists(username)) {
+            message = "Konto existiert bereits";
+            return null;
+        }
+        else if (!checkUsername(username)) {
+            message = "Username darf nicht mit ',' oder mit '-' beginnen";
+            return null;
+        }
+        else if (password.length() < 8) {
+            message = "Passwort muss mindestens 8 Zeichen lang sein";
             return null;
         }
         else {
@@ -43,7 +65,7 @@ public class AccountManager {
         String row;
         ArrayList<String> names = new ArrayList<>();
         while((row = csvReader.readLine()) != null) {
-            if (row.charAt(0) != '-') names.add(row.split(",")[0]);
+            if (row.charAt(0) != '-' || row.length() > 0) names.add(row.split(",")[0]);
         }
         csvReader.close();
         return names;
@@ -57,8 +79,8 @@ public class AccountManager {
             if (row.charAt(0) == '-') continue;
             arr = row.split(",");
             if (username.equals(arr[0])) {
-                if (password.equals(arr[1])) return true;
-                else return false;
+                if (password.equals(arr[1])) return false;
+                else return true;
             }
         }
         csvReader.close();
@@ -79,17 +101,59 @@ public class AccountManager {
         return verlauf;
     }
 
-    private static boolean checkUsernamePassword(String username, String password) {
+    private static boolean checkUsername(String username) {
         if (username.length() == 0 || username.length() > 16) return false;
-        else if (username.charAt(0) == '-' || username.charAt(0) == ',') return false;
-        else return password.length() >= 8;
+        else return username.charAt(0) != '-' && username.charAt(0) != ',';
     }
 
-    public static void writeAccountToFile(String username, String password) throws FileNotFoundException {
-        PrintWriter writer = new PrintWriter(path);
-        writer.write(username);
-        writer.write(password);
+    public static void writeAccountToFile(String username, String password) throws IOException {
+        PrintWriter writer = new PrintWriter(new FileWriter(path, true));
+        writer.write(username + ",");
+        writer.write(password + "\n");
         writer.close();
+    }
+
+    public static void writeKostenToFile(Kosten kosten, String username) throws IOException {
+        ArrayList<String> lst = getAllLinesFromFile();
+        int index = getIndexOfUsernameInFile(username, lst) + 1;
+        lst.add(index, getLine(kosten));
+        PrintWriter writer = new PrintWriter(path);
+        for (String line : lst) writer.write(line+"\n");
+        writer.close();
+    }
+
+    private static String getLine(Kosten kosten) {
+        String c = ",";
+        Auto auto = kosten.getAuto();
+        StringBuilder str = new StringBuilder();
+        str.append("-," + kosten.getDauer() + c);
+        str.append(kosten.getKmProJahr() + c);
+        str.append(auto.getMarke() + c);
+        str.append(auto.getModel() + c);
+        str.append(auto.getTrim() + c);
+        str.append(auto.getCylinder_layout() + c);
+        str.append(auto.getNumberOfCylinders() + c);
+        str.append(auto.getEngine_type() + c);
+        str.append(auto.getMixed_fuel() + c);
+        str.append(auto.getCity_fuel() + c);
+        str.append(auto.getHighway_fuel());
+        return str.toString();
+    }
+
+    private static ArrayList<String> getAllLinesFromFile() throws IOException {
+        BufferedReader csvReader = new BufferedReader(new FileReader(path));
+        ArrayList<String> lines = new ArrayList<>();
+        String row;
+        while ((row = csvReader.readLine()) != null) {
+            lines.add(row);
+        }
+        csvReader.close();
+        return lines;
+    }
+
+    private static int getIndexOfUsernameInFile(String username, ArrayList<String> lst) {
+        for (int i = 0; i < lst.size(); i++) if (username.equals(lst.get(i).split(",")[0])) return i;
+        return -1;
     }
 
 }

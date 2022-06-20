@@ -6,6 +6,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.collections.*;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -15,6 +18,13 @@ import javafx.scene.chart.XYChart;
 
 public class UI extends Application {
   private final Pane root = new Pane();
+  private final int width = 160;
+  private final int height = 30;
+  private final int xGap = 30 + width;
+  private final int yGap = 50 + height;
+  private final int xLayout = 120;
+  private final int yLayout = 120;
+  private final int xLayout2 = 1100;
   // Komponenten für die Eingabe
   private final ComboBox<String> comboBox1 = new ComboBox<>();
   private final ObservableList<String> comboBox1ObservableList =
@@ -46,20 +56,15 @@ public class UI extends Application {
   private final NumberAxis xAxis = new NumberAxis();
   private final NumberAxis yAxis = new NumberAxis();
   private final XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-
-  final LineChart<Number, Number> lineChart = new LineChart<Number, Number>(
+  private final LineChart<Number, Number> lineChart = new LineChart<Number, Number>(
           xAxis, yAxis);
-
+  // Komponenten logIn
+  private final Button button2 = new Button();
+  private final Button button3 = new Button();
 
   public void start(Stage primaryStage) {
-    final int width = 160;
-    final int height = 30;
-    final int xGap = 30 + width;
-    final int yGap = 50 + height;
-    final int xLayout = 120;
-    final int yLayout = 120;
-    final int xLayout2 = 1100;
 
+    primaryStage.setResizable(false);
     Scene scene = new Scene(root, 1920, 1080);
     comboBox1.setLayoutX(xLayout);
     comboBox1.setLayoutY(yLayout);
@@ -140,9 +145,26 @@ public class UI extends Application {
     lineChart.setLegendVisible(false);
     root.getChildren().add(lineChart);
 
-    comboBox1.setOnAction((event) -> { comboBox1Action(); });
-    comboBox2.setOnAction((event) -> { comboBox2Action(); });
-    button1.setOnAction((event) -> { button1Action(); });
+    // logIn
+    button2.setText("Log In / Register");
+    button2.setPrefWidth(width + xGap + width);
+    button2.setPrefHeight(height);
+    button2.setLayoutX(xLayout);
+    button2.setLayoutY(yLayout + 2 * yGap);
+    button2.setOnAction((event) -> { button2Action(); });
+    root.getChildren().add(button2);
+    /*
+    button3.setPrefWidth(width);
+    button3.setPrefHeight(height);
+    button3.setLayoutX(xLayout + xGap);
+    button3.setLayoutY(yLayout + 2 * yGap);
+    button3.setOnAction((event) -> button3Action());
+    root.getChildren().add(button3);
+     */
+
+    comboBox1.setOnAction((event) -> comboBox1Action());
+    comboBox2.setOnAction((event) -> comboBox2Action());
+    button1.setOnAction((event) -> button1Action());
 
     primaryStage.setOnCloseRequest(e -> System.exit(0));
     primaryStage.setTitle("KFZ Portal");
@@ -179,9 +201,86 @@ public class UI extends Application {
     display();
   }
 
+  private void button2Action() {
+    openLogInWindow();
+  }
+
+  private final TextField usernameField = new TextField();
+  private final TextField passwordField = new TextField();
+  private final Label labelMessage = new Label();
+
+  private void openLogInWindow() {
+    int logInYLayout = 60;
+    Pane root2 = new Pane();
+    Stage stage = new Stage();
+    stage.setScene(new Scene(root2, 600, 350));
+    Button logIn = new Button();
+    Button register = new Button();
+    usernameField.setPromptText("Username");
+    usernameField.setPrefWidth(width);
+    usernameField.setPrefHeight(height);
+    usernameField.setLayoutX(xLayout);
+    usernameField.setLayoutY(logInYLayout);
+    root2.getChildren().add(usernameField);
+    passwordField.setPromptText("Password");
+    passwordField.setPrefWidth(width);
+    passwordField.setPrefHeight(height);
+    passwordField.setLayoutX(xLayout);
+    passwordField.setLayoutY(logInYLayout + yGap);
+    root2.getChildren().add(passwordField);
+    logIn.setText("Log In");
+    logIn.setPrefWidth(width);
+    logIn.setPrefHeight(height);
+    logIn.setLayoutX(xLayout);
+    logIn.setLayoutY(logInYLayout + yGap * 2);
+    logIn.setOnAction((event) -> logInAction());
+    root2.getChildren().add(logIn);
+    register.setText("Register");
+    register.setPrefWidth(width);
+    register.setPrefHeight(height);
+    register.setLayoutX(xLayout + xGap);
+    register.setLayoutY(logInYLayout + yGap * 2);
+    register.setOnAction((event) -> registerAction());
+    root2.getChildren().add(register);
+    labelMessage.setPrefWidth(width + xGap + width);
+    labelMessage.setPrefHeight(height);
+    labelMessage.setLayoutX(xLayout);
+    labelMessage.setLayoutY(logInYLayout + yGap * 3);
+    root2.getChildren().add(labelMessage);
+    stage.show();
+  }
+
+  private void registerAction() {
+    Account account = null;
+    try {
+      account = AccountManager.register(usernameField.getText(), passwordField.getText());
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+    if (account == null) labelMessage.setText(AccountManager.getMessage());
+    else Manager.setAccount(account);
+  }
+
+  private void logInAction() {
+    Account account = null;
+    try {
+      account = AccountManager.logIn(usernameField.getText(), passwordField.getText());
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+    if (account == null) labelMessage.setText(AccountManager.getMessage());
+    else Manager.setAccount(account);
+  }
+
+  private void button3Action() {
+
+  }
+
   private void display() {
     DecimalFormat df = new DecimalFormat("0.00");
-    Kosten kosten = Manager.currentKosten;
+    Kosten kosten = Manager.getCurrentKosten();
     Auto auto = kosten.getAuto();
     QueueWithPointer<Double> kostenQueue = kosten.getEinzelkosten();
     String[] texts = {"Spritkosten", "Steuern", "Versicherung", "Verschleiß", "TÜV"};
@@ -195,7 +294,7 @@ public class UI extends Application {
   }
 
   private void displayDiagramm() {
-    Kosten kosten = Manager.currentKosten;
+    Kosten kosten = Manager.getCurrentKosten();
     xAxis.setAutoRanging(false);
     xAxis.setLowerBound(0);
     xAxis.setUpperBound((int) (kosten.getDauer() * 1.1));

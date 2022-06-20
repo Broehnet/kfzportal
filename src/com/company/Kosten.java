@@ -41,6 +41,7 @@ public class Kosten {
 
     public Auto getAuto() { return auto; }
     public int getDauer() { return dauer; }
+    public int getKmProJahr() { return kmProJahr; }
 
     public double getGesamtkosten() {
         return gesamtkosten;

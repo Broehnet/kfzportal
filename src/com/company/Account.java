@@ -17,8 +17,13 @@ public class Account {
         this.verlauf = new QueueWithPointer<>();
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     private QueueWithPointer<Verlauf> stringArrToVerlauf(ArrayList<String[]> v) {
-        // Todo noch nicht fertig
-        return new QueueWithPointer<Verlauf>();
+        QueueWithPointer<Verlauf> queue = new QueueWithPointer<>();
+        for (String[] s : v) queue.enqueue(new Element<>(null, new Verlauf(s)));
+        return queue;
     }
 }

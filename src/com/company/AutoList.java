@@ -13,7 +13,7 @@ public class AutoList {
     static ArrayList<String[]> currentListTrim;
 
     private static ArrayList<String[]> getAutoListFromCSV() {
-        String path = "com/company/cardbf.csv";
+        String path = "src/com/company/cardbf.csv";
         String row;
         ArrayList<String[]> a = new ArrayList<>();
         try {
@@ -33,7 +33,6 @@ public class AutoList {
     }
 
     public static Auto getAutoArrayFromInput(String marke) {
-        // TODO Parameter sind nur testweise, dort muessen die einzelnen Suchparameter des Autos eingesetzt werden
         int bottom = 0;
         int top = size - 1;
         System.out.println(size);
