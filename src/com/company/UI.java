@@ -18,7 +18,12 @@ import javafx.scene.chart.XYChart;
 
 
 public class UI extends Application {
-  private final Pane root = new Pane();
+  private static final Pane root = new Pane();
+
+  public static Pane getRoot() {
+    return root;
+  }
+
   private final int width = 160;
   private final int height = 30;
   private final int xGap = 30 + width;
@@ -416,12 +421,15 @@ public class UI extends Application {
   }
 
   private Button[] buttonList;
-  private int length;
+  private static int length;
+
+  public static int getLength() {
+    return length;
+  }
 
   private void displayVerlaufElements() {
     QueueWithPointer<Verlauf> verlauf = Manager.getVerlauf();
     if (verlauf.getLength() == 0) return;
-    int test = Manager.getCurrentVerlaufIndex();
     if (verlauf.getLength() - Manager.getCurrentVerlaufIndex() <= 5) {
       length = verlauf.getLength() - Manager.getCurrentVerlaufIndex();
       weiter.setVisible(false);
@@ -430,6 +438,7 @@ public class UI extends Application {
       length = 5;
       weiter.setVisible(true);
     }
+    verlaufLabel.setText("Verlauf   " + (Manager.getCurrentVerlaufIndex() + 1) + " - "  + (Manager.getCurrentVerlaufIndex() + length));
     vor.setVisible(Manager.getCurrentVerlaufIndex() != 0);
     verlaufLabel.setVisible(true);
     buttonList = new Button[length];

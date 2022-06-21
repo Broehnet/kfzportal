@@ -35,7 +35,7 @@ public class Manager {
                 AccountManager.writeKostenToFile(currentKosten, currentAccount.getUsername());
                 currentAccount.setVerlauf(AccountManager.getVerlauf(currentAccount.getUsername()));
                 verlauf = currentAccount.getVerlauf();
-                currentVerlaufIndex = 0;
+                for (int i = 0; i < UI.getLength(); i++) UI.getRoot().getChildren().remove(UI.getRoot().getChildren().size()-1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
