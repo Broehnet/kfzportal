@@ -110,11 +110,13 @@ public class AccountManager {
         while ((row = csvReader.readLine()) != null) {
             if (username.equals(row.split(",")[0])) {
                 row = csvReader.readLine();
+                if (row == null) return verlauf;
                 String withoutFirstTwo;
                 while(row.charAt(0) == '-') {
                     withoutFirstTwo = row.substring(2);
                     verlauf.add(withoutFirstTwo.split(","));
                     row = csvReader.readLine();
+                    if (row == null) break;
                 }
                 break;
             }

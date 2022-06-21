@@ -347,6 +347,8 @@ public class UI extends Application {
     successDisplay(account.getUsername());
     Manager.setAccount(account);
     Manager.setVerlauf(account.getVerlauf());
+    for (int i = 0; i < length; i++) root.getChildren().remove(root.getChildren().size()-1);
+    Manager.setCurrentVerlaufIndex(0);
     displayVerlaufElements();
   }
 
@@ -421,7 +423,7 @@ public class UI extends Application {
   }
 
   private Button[] buttonList;
-  private static int length;
+  private static int length = 0;
 
   public static int getLength() {
     return length;
@@ -429,7 +431,6 @@ public class UI extends Application {
 
   private void displayVerlaufElements() {
     QueueWithPointer<Verlauf> verlauf = Manager.getVerlauf();
-    if (verlauf.getLength() == 0) return;
     if (verlauf.getLength() - Manager.getCurrentVerlaufIndex() <= 5) {
       length = verlauf.getLength() - Manager.getCurrentVerlaufIndex();
       weiter.setVisible(false);
@@ -438,7 +439,8 @@ public class UI extends Application {
       length = 5;
       weiter.setVisible(true);
     }
-    verlaufLabel.setText("Verlauf   " + (Manager.getCurrentVerlaufIndex() + 1) + " - "  + (Manager.getCurrentVerlaufIndex() + length));
+    if (verlauf.getLength() > 0) verlaufLabel.setText("Verlauf   " + (Manager.getCurrentVerlaufIndex() + 1) + " - "  + (Manager.getCurrentVerlaufIndex() + length));
+    else verlaufLabel.setText("Verlauf");
     vor.setVisible(Manager.getCurrentVerlaufIndex() != 0);
     verlaufLabel.setVisible(true);
     buttonList = new Button[length];
@@ -446,7 +448,7 @@ public class UI extends Application {
       final int index = Manager.getCurrentVerlaufIndex() + i;
       final Verlauf verlaufElement = verlauf.getItem(index).getContent();
       buttonList[i] = new Button();
-      buttonList[i].setText(verlaufElement.getAuto()[0] + " " + verlaufElement.getAuto()[1] + " " +  verlaufElement.getAuto()[2] + " " + verlaufElement.getKmProJahr() + " km/Jahr " + verlaufElement.getDauer() + " Jahre : " + df.format(verlaufElement.getGesamtKosten()) + "€");
+      buttonList[i].setText(verlaufElement.getAuto()[0] + " " + verlaufElement.getAuto()[1] + " " +  verlaufElement.getAuto()[2] + "      " + verlaufElement.getKmProJahr() + " km/Jahr      " + verlaufElement.getDauer() + (verlaufElement.getKmProJahr() <= 1 ? " Jahr" : " Jahre") + "      " + df.format(verlaufElement.getGesamtKosten()) + "€");
       buttonList[i].setPrefWidth(width + 2 * xGap);
       buttonList[i].setPrefHeight(height * 2);
       buttonList[i].setLayoutX(xLayout);
