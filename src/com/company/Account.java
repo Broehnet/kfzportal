@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Account {
 
-    private String username;
-    private QueueWithPointer<Verlauf> verlauf;
+    private final String username;
+    private final QueueWithPointer<Verlauf> verlauf;
 
     Account(String username, ArrayList<String[]> verlauf) {
         this.username = username;

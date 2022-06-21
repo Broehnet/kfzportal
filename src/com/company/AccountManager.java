@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class AccountManager {
 
-    private static final String path = "src/com/company/AccountList.csv";
+    private static final String path = Constants.pathToAccountFile;
     private static String message;
 
     public static String getMessage() {
@@ -31,7 +31,10 @@ public class AccountManager {
             message = "Falsches Passwort";
             return null;
         }
-        else return new Account(username, getVerlauf(username));
+        else {
+            message = "Willkommen " + username;
+            return new Account(username, getVerlauf(username));
+        }
     }
 
     public static Account register(String username, String password) throws IOException {
@@ -61,6 +64,7 @@ public class AccountManager {
         }
         else {
             writeAccountToFile(username, password);
+            message = "Erfolgreich registriert und eingeloggt";
             return new Account(username);
         }
     }

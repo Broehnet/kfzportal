@@ -3,6 +3,7 @@ package com.company;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.collections.*;
@@ -24,7 +25,6 @@ public class UI extends Application {
   private final int yGap = 50 + height;
   private final int xLayout = 120;
   private final int yLayout = 120;
-  private final int xLayout2 = 1100;
   // Komponenten für die Eingabe
   private final ComboBox<String> comboBox1 = new ComboBox<>();
   private final ObservableList<String> comboBox1ObservableList =
@@ -61,6 +61,8 @@ public class UI extends Application {
   // Komponenten logIn
   private final Button button2 = new Button();
   private final Button button3 = new Button();
+  private final Button button4 = new Button();
+  private final Label logInStatus = new Label();
 
   public void start(Stage primaryStage) {
 
@@ -114,6 +116,7 @@ public class UI extends Application {
       root.getChildren().add(labelList[i]);
     }
     int c = 0;
+    int xLayout2 = 900;
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 2; j++) {
         ausgabeLabels[c].setLayoutX(xLayout + xLayout2 + xGap * j);
@@ -147,20 +150,37 @@ public class UI extends Application {
 
     // logIn
     button2.setText("Log In / Register");
-    button2.setPrefWidth(width + xGap + width);
+    button2.setPrefWidth(width + xGap * 2);
     button2.setPrefHeight(height);
     button2.setLayoutX(xLayout);
     button2.setLayoutY(yLayout + 2 * yGap);
     button2.setOnAction((event) -> { button2Action(); });
     root.getChildren().add(button2);
-    /*
+
+    button3.setText("Log Out");
     button3.setPrefWidth(width);
     button3.setPrefHeight(height);
-    button3.setLayoutX(xLayout + xGap);
+    button3.setLayoutX(xLayout);
     button3.setLayoutY(yLayout + 2 * yGap);
     button3.setOnAction((event) -> button3Action());
+    button3.setVisible(false);
     root.getChildren().add(button3);
-     */
+
+    button4.setText("Account wechseln");
+    button4.setPrefWidth(width);
+    button4.setPrefHeight(height);
+    button4.setLayoutX(xLayout + xGap);
+    button4.setLayoutY(yLayout + 2 * yGap);
+    button4.setOnAction((event) -> button4Action());
+    button4.setVisible(false);
+    root.getChildren().add(button4);
+
+    logInStatus.setText("Nicht eingeloggt");
+    logInStatus.setPrefWidth(width * 2);
+    logInStatus.setPrefHeight(height);
+    logInStatus.setLayoutX(xLayout);
+    logInStatus.setLayoutY(yLayout + 3 * yGap);
+    root.getChildren().add(logInStatus);
 
     comboBox1.setOnAction((event) -> comboBox1Action());
     comboBox2.setOnAction((event) -> comboBox2Action());
@@ -195,7 +215,6 @@ public class UI extends Application {
       Manager.search(Integer.parseInt(textField2.getText()), Integer.parseInt(textField1.getText()), index);
     }
     catch (NumberFormatException e) {
-      System.out.println("Wrong input");
       return;
     }
     display();
@@ -205,17 +224,22 @@ public class UI extends Application {
     openLogInWindow();
   }
 
-  private final TextField usernameField = new TextField();
-  private final TextField passwordField = new TextField();
-  private final Label labelMessage = new Label();
+  private TextField usernameField;
+  private TextField passwordField;
+  private Label labelMessage;
+  private Button logIn;
+  private Button register;
 
   private void openLogInWindow() {
+    usernameField = new TextField();
+    passwordField = new TextField();
+    labelMessage = new Label();
     int logInYLayout = 60;
     Pane root2 = new Pane();
     Stage stage = new Stage();
     stage.setScene(new Scene(root2, 600, 350));
-    Button logIn = new Button();
-    Button register = new Button();
+    logIn = new Button();
+    register = new Button();
     usernameField.setPromptText("Username");
     usernameField.setPrefWidth(width);
     usernameField.setPrefHeight(height);
@@ -258,8 +282,13 @@ public class UI extends Application {
     catch (IOException e) {
       e.printStackTrace();
     }
-    if (account == null) labelMessage.setText(AccountManager.getMessage());
-    else Manager.setAccount(account);
+    if (account != null)  successfulRegister(account);
+    labelMessage.setText(AccountManager.getMessage());
+  }
+
+  private void successfulRegister(Account account) {
+    successDisplay(account.getUsername());
+    Manager.setAccount(account);
   }
 
   private void logInAction() {
@@ -270,11 +299,38 @@ public class UI extends Application {
     catch (IOException e) {
       e.printStackTrace();
     }
-    if (account == null) labelMessage.setText(AccountManager.getMessage());
-    else Manager.setAccount(account);
+    if (account != null) successfulLogIn(account);
+    labelMessage.setText(AccountManager.getMessage());
+  }
+
+  private void successfulLogIn(Account account) {
+    successDisplay(account.getUsername());
+    Manager.setAccount(account);
+  }
+
+  private void successDisplay(String username) {
+    usernameField.setVisible(false);
+    passwordField.setVisible(false);
+    logIn.setVisible(false);
+    register.setVisible(false);
+    labelMessage.setTextFill(Color.GREEN);
+    labelMessage.setLayoutY(yLayout);
+    button2.setVisible(false);
+    button3.setVisible(true);
+    button4.setVisible(true);
+    logInStatus.setText("Eingeloggt als: " + username);
   }
 
   private void button3Action() {
+    Manager.setAccount(null);
+    button3.setVisible(false);
+    button4.setVisible(false);
+    button2.setVisible(true);
+    logInStatus.setText("Nicht eingeloggt");
+  }
+
+  private void button4Action() {
+    openLogInWindow();
 
   }
 
