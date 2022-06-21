@@ -103,14 +103,20 @@ public class AccountManager {
         return false;
     }
 
-    private static ArrayList<String[]> getVerlauf(String username) throws IOException {
+    public static ArrayList<String[]> getVerlauf(String username) throws IOException {
         BufferedReader csvReader = new BufferedReader(new FileReader(path));
         String row;
         ArrayList<String[]> verlauf = new ArrayList<>();
         while ((row = csvReader.readLine()) != null) {
             if (username.equals(row.split(",")[0])) {
-                csvReader.readLine();
-                while(row.charAt(0) == '-') verlauf.add(row.substring(2).split(","));
+                row = csvReader.readLine();
+                String withoutFirstTwo;
+                while(row.charAt(0) == '-') {
+                    withoutFirstTwo = row.substring(2);
+                    verlauf.add(withoutFirstTwo.split(","));
+                    row = csvReader.readLine();
+                }
+                break;
             }
         }
         csvReader.close();
@@ -144,6 +150,7 @@ public class AccountManager {
         StringBuilder str = new StringBuilder();
         str.append("-," + kosten.getDauer() + c);
         str.append(kosten.getKmProJahr() + c);
+        str.append(kosten.getGesamtkosten() + c);
         str.append(auto.getMarke() + c);
         str.append(auto.getModel() + c);
         str.append(auto.getTrim() + c);

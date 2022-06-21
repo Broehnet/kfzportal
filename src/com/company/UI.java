@@ -25,6 +25,8 @@ public class UI extends Application {
   private final int yGap = 50 + height;
   private final int xLayout = 120;
   private final int yLayout = 120;
+  private final int yLayoutVerlauf = 415;
+  private final DecimalFormat df = new DecimalFormat("0.00");
   // Komponenten für die Eingabe
   private final ComboBox<String> comboBox1 = new ComboBox<>();
   private final ObservableList<String> comboBox1ObservableList =
@@ -63,6 +65,10 @@ public class UI extends Application {
   private final Button button3 = new Button();
   private final Button button4 = new Button();
   private final Label logInStatus = new Label();
+
+  private final Label verlaufLabel = new Label();
+  private final Button vor = new Button();
+  private final Button weiter = new Button();
 
   public void start(Stage primaryStage) {
 
@@ -182,6 +188,32 @@ public class UI extends Application {
     logInStatus.setLayoutY(yLayout + 3 * yGap);
     root.getChildren().add(logInStatus);
 
+    verlaufLabel.setText("Verlauf");
+    verlaufLabel.setPrefWidth(width);
+    verlaufLabel.setPrefHeight(height);
+    verlaufLabel.setLayoutX(xLayout);
+    verlaufLabel.setLayoutY(yLayoutVerlauf - 15);
+    verlaufLabel.setVisible(false);
+    root.getChildren().add(verlaufLabel);
+
+    vor.setText("Vor");
+    vor.setPrefWidth((width + 2 * xGap - 30) / 2);
+    vor.setPrefHeight(height);
+    vor.setLayoutX(xLayout);
+    vor.setLayoutY(yLayoutVerlauf + 9 * height + yGap + 20);
+    vor.setOnAction((event) -> vorAction());
+    vor.setVisible(false);
+    root.getChildren().add(vor);
+    weiter.setText("Weiter");
+    weiter.setPrefWidth((width + 2 * xGap - 30) / 2);
+    weiter.setPrefHeight(height);
+    weiter.setLayoutX(xLayout + (width + 2 * xGap - 30) / 2 + 30);
+    weiter.setLayoutY(yLayoutVerlauf + 9 * height + yGap + 20);
+    weiter.setOnAction((event) -> weiterAction());
+    weiter.setVisible(false);
+    root.getChildren().add(weiter);
+
+
     comboBox1.setOnAction((event) -> comboBox1Action());
     comboBox2.setOnAction((event) -> comboBox2Action());
     button1.setOnAction((event) -> button1Action());
@@ -213,6 +245,7 @@ public class UI extends Application {
     if (comboBox3.getItems().size() == 0 || index < 0) return;
     try {
       Manager.search(Integer.parseInt(textField2.getText()), Integer.parseInt(textField1.getText()), index);
+      displayVerlaufElements();
     }
     catch (NumberFormatException e) {
       return;
@@ -289,6 +322,8 @@ public class UI extends Application {
   private void successfulRegister(Account account) {
     successDisplay(account.getUsername());
     Manager.setAccount(account);
+    Manager.setVerlauf(account.getVerlauf());
+    displayVerlaufElements();
   }
 
   private void logInAction() {
@@ -306,6 +341,8 @@ public class UI extends Application {
   private void successfulLogIn(Account account) {
     successDisplay(account.getUsername());
     Manager.setAccount(account);
+    Manager.setVerlauf(account.getVerlauf());
+    displayVerlaufElements();
   }
 
   private void successDisplay(String username) {
@@ -319,6 +356,7 @@ public class UI extends Application {
     button3.setVisible(true);
     button4.setVisible(true);
     logInStatus.setText("Eingeloggt als: " + username);
+    verlaufLabel.setVisible(true);
   }
 
   private void button3Action() {
@@ -326,16 +364,25 @@ public class UI extends Application {
     button3.setVisible(false);
     button4.setVisible(false);
     button2.setVisible(true);
+    deleteVerlaufElements();
     logInStatus.setText("Nicht eingeloggt");
+  }
+
+  private void deleteVerlaufElements() {
+    verlaufLabel.setVisible(false);
+    if (buttonList.length == 0) return;
+    else {
+      for (Button button : buttonList) button.setVisible(false);
+    }
+    vor.setVisible(false);
+    weiter.setVisible(false);
   }
 
   private void button4Action() {
     openLogInWindow();
-
   }
 
   private void display() {
-    DecimalFormat df = new DecimalFormat("0.00");
     Kosten kosten = Manager.getCurrentKosten();
     Auto auto = kosten.getAuto();
     QueueWithPointer<Double> kostenQueue = kosten.getEinzelkosten();
@@ -366,6 +413,57 @@ public class UI extends Application {
     }
     lineChart.setVisible(true);
 
+  }
+
+  private Button[] buttonList;
+  private int length;
+
+  private void displayVerlaufElements() {
+    QueueWithPointer<Verlauf> verlauf = Manager.getVerlauf();
+    if (verlauf.getLength() == 0) return;
+    int test = Manager.getCurrentVerlaufIndex();
+    if (verlauf.getLength() - Manager.getCurrentVerlaufIndex() <= 5) {
+      length = verlauf.getLength() - Manager.getCurrentVerlaufIndex();
+      weiter.setVisible(false);
+    }
+    else {
+      length = 5;
+      weiter.setVisible(true);
+    }
+    vor.setVisible(Manager.getCurrentVerlaufIndex() != 0);
+    verlaufLabel.setVisible(true);
+    buttonList = new Button[length];
+    for (int i = 0; i < length; i++) {
+      final int index = Manager.getCurrentVerlaufIndex() + i;
+      final Verlauf verlaufElement = verlauf.getItem(index).getContent();
+      buttonList[i] = new Button();
+      buttonList[i].setText(verlaufElement.getAuto()[0] + " " + verlaufElement.getAuto()[1] + " " +  verlaufElement.getAuto()[2] + " " + verlaufElement.getKmProJahr() + " km/Jahr " + verlaufElement.getDauer() + " Jahre : " + df.format(verlaufElement.getGesamtKosten()) + "€");
+      buttonList[i].setPrefWidth(width + 2 * xGap);
+      buttonList[i].setPrefHeight(height * 2);
+      buttonList[i].setLayoutX(xLayout);
+      buttonList[i].setLayoutY(yLayoutVerlauf + height + i * (height * 2));
+      buttonList[i].setOnAction((event) -> {
+        Manager.setCurrentKosten(new Kosten(verlaufElement.getAuto(), verlaufElement.getDauer(), verlaufElement.getKmProJahr()));
+        display();
+      });
+    }
+    displayVerlauf();
+  }
+
+  private void displayVerlauf() {
+    for (Button button : buttonList) root.getChildren().add(button);
+  }
+
+  private void vorAction() {
+    for (int i = 0; i < length; i++) root.getChildren().remove(root.getChildren().size()-1);
+    Manager.setCurrentVerlaufIndex(Manager.getCurrentVerlaufIndex() - 5);
+    displayVerlaufElements();
+  }
+
+  private void weiterAction() {
+    for (int i = 0; i < 5; i++) root.getChildren().remove(root.getChildren().size()-1);
+    Manager.setCurrentVerlaufIndex(Manager.getCurrentVerlaufIndex() + 5);
+    displayVerlaufElements();
   }
 
   public static void main(String[] args) {

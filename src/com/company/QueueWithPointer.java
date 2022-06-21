@@ -40,6 +40,34 @@ public class QueueWithPointer<T> {
         hinten = e;
     }
 
+    public Element<T> getItem(int index) {
+        if (isEmpty()) return null;
+        else if (index < 0 || index >= getLength()) return null;
+        else if (index == 0) return vorne;
+        else if (index == getLength() - 1) return hinten;
+        else {
+            for (int i = 0; i < index; i++) {
+                movePointerBack();
+            }
+            Element<T> temp = pointer;
+            pointer = vorne;
+            return temp;
+        }
+    }
+
+    public int getLength() {
+        if (isEmpty()) return 0;
+        else {
+            int c = 1;
+            while (pointer != hinten) {
+                movePointerBack();
+                c++;
+            }
+            movePointerBack();
+            return c;
+        }
+    }
+
     public Element<T> getPointer() {
         return pointer;
     }

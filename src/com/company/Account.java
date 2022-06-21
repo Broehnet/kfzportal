@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Account {
 
     private final String username;
-    private final QueueWithPointer<Verlauf> verlauf;
+    private QueueWithPointer<Verlauf> verlauf;
 
     Account(String username, ArrayList<String[]> verlauf) {
         this.username = username;
@@ -26,4 +26,13 @@ public class Account {
         for (String[] s : v) queue.enqueue(new Element<>(null, new Verlauf(s)));
         return queue;
     }
+
+    public QueueWithPointer<Verlauf> getVerlauf() {
+        return verlauf;
+    }
+
+    public void setVerlauf(ArrayList<String[]> verlauf) {
+        this.verlauf = stringArrToVerlauf(verlauf);
+    }
+
 }
