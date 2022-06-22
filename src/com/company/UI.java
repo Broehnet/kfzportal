@@ -249,8 +249,10 @@ public class UI extends Application {
     int index = comboBox3.getSelectionModel().getSelectedIndex();
     if (comboBox3.getItems().size() == 0 || index < 0) return;
     try {
+      if (Integer.parseInt(textField1.getText()) < 0 || Integer.parseInt(textField2.getText()) < 0) return;
+      else if (Integer.parseInt(textField1.getText()) > 100 || Integer.parseInt(textField2.getText()) > 1000000) return;
       Manager.search(Integer.parseInt(textField2.getText()), Integer.parseInt(textField1.getText()), index);
-      displayVerlaufElements();
+      if (Manager.getLoggedIn()) displayVerlaufElements();
     }
     catch (NumberFormatException e) {
       return;
@@ -407,17 +409,19 @@ public class UI extends Application {
 
   private void displayDiagramm() {
     Kosten kosten = Manager.getCurrentKosten();
+    int upperbound = (int) (Math.ceil(kosten.getGesamtkosten() / (Math.pow(10, df.format(kosten.getGesamtkosten()).length() - 5))) * ((int)(Math.pow(10, df.format(kosten.getGesamtkosten()).length() - 5))));
     xAxis.setAutoRanging(false);
     xAxis.setLowerBound(0);
-    xAxis.setUpperBound((int) (kosten.getDauer() * 1.1));
-    xAxis.setTickUnit((int) (0.1 * kosten.getDauer()));
+    xAxis.setUpperBound((int) (kosten.getDauer()));
+    xAxis.setTickUnit(kosten.getDauer() > 20 ? 10 : 1);
     yAxis.setAutoRanging(false);
     yAxis.setLowerBound(0);
-    yAxis.setUpperBound(kosten.getGesamtkosten() * 1.1);
+    yAxis.setUpperBound(upperbound);
+    yAxis.setTickUnit((int) (upperbound / 5));
     int price = 0;
     series.getData().clear();
     for (int i = 0; i <= kosten.getDauer(); i++) {
-      series.getData().add(new XYChart.Data<Number, Number>(i, price));
+      series.getData().add(new XYChart.Data<>(i, price));
       price += kosten.getGesamtkosten() / kosten.getDauer();
     }
     lineChart.setVisible(true);
@@ -441,7 +445,7 @@ public class UI extends Application {
       length = 5;
       weiter.setVisible(true);
     }
-    if (verlauf.getLength() > 0) verlaufLabel.setText("Verlauf   " + (Manager.getCurrentVerlaufIndex() + 1) + " - "  + (Manager.getCurrentVerlaufIndex() + length));
+    if (verlauf.getLength() > 0) verlaufLabel.setText("Verlauf   " + (Manager.getCurrentVerlaufIndex() + 1) + " - "  + (Manager.getCurrentVerlaufIndex() + length) + " von " + verlauf.getLength());
     else verlaufLabel.setText("Verlauf");
     vor.setVisible(Manager.getCurrentVerlaufIndex() != 0);
     verlaufLabel.setVisible(true);

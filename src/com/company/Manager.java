@@ -50,6 +50,10 @@ public class Manager {
         currentKosten = kosten;
     }
 
+    public static boolean getLoggedIn() {
+        return currentAccount !=  null;
+    }
+
 
     public static void setAccount(Account account) {
         currentAccount = account;
