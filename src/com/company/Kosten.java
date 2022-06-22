@@ -67,7 +67,7 @@ public class Kosten {
 
     // Todo bisher nur Pauschale
     public double versicherung() {
-        return 700 * dauer;
+        return  500 * dauer;
     }
 
     // Todo bisher nur Pauschale
@@ -76,7 +76,9 @@ public class Kosten {
     }
 
     public double tuev() {
-        int anz = dauer - 4 <= 0 ? 0 : (int) Math.floor((dauer - 4) / 2);
+        int abzug = dauer - 4;
+        if (abzug < 0) return 0;
+        int anz = (abzug / 2) + 1;
         return 139 * anz;
     }
 
