@@ -328,6 +328,8 @@ public class UI extends Application {
     successDisplay(account.getUsername());
     Manager.setAccount(account);
     Manager.setVerlauf(account.getVerlauf());
+    for (int i = 0; i < length; i++) root.getChildren().remove(root.getChildren().size()-1);
+    Manager.setCurrentVerlaufIndex(0);
     displayVerlaufElements();
   }
 
